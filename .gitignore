@@ -1,0 +1,20 @@
+node_modules/
+dist/
+.cache/
+
+# Служебные файлы ОС и редакторов
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+npm-debug.log*
+
+# Чекпойнты Jupyter
+.ipynb_checkpoints/
+
+# ВАЖНО: сгенерированный из ноутбуков HTML НЕ игнорируется —
+# он импортируется в бандл, поэтому должен быть в репозитории.
+# (Если вы хотите генерировать его только в CI, раскомментируйте строку ниже
+#  и добавьте шаг `npm run convert` в GitHub Actions.)
+# src/content/**/*.html

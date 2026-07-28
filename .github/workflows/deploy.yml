@@ -1,0 +1,66 @@
+# Автоматическая сборка и публикация сайта на GitHub Pages.
+#
+# Настройка (один раз): Settings → Pages → Source: GitHub Actions.
+# После этого каждый push в main публикует новую версию сайта.
+#
+# Вариант с веткой gh-pages (npm run deploy) остаётся рабочим —
+# используйте что-то одно.
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Параллельные деплои не нужны: берём последний
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # pandoc нужен, только если конвертируем ноутбуки прямо в CI.
+      # Если готовый HTML уже лежит в src/content/, шаг можно удалить.
+      - name: Установить pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc
+
+      - name: Установить зависимости
+        run: npm ci
+
+      - name: Конвертировать ноутбуки
+        run: npm run convert
+
+      - name: Собрать проект
+        run: npm run build
+        env:
+          # Базовый путь берём из адреса репозитория: /<repo>/
+          PUBLIC_URL: /${{ github.event.repository.name }}/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

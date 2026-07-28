@@ -1,0 +1,31 @@
+{
+  "short_name": "ML Seminars",
+  "name": "Семинары по машинному обучению",
+  "description": "Материалы семинаров: Jupyter-ноутбуки, презентации и конспекты.",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "/mltest1/favicon.ico",
+      "sizes": "16x16 32x32 48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/mltest1/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/mltest1/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/mltest1/",
+  "scope": "/mltest1/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#4c1d95",
+  "background_color": "#0f172a"
+}
